@@ -65,4 +65,4 @@ module Rx_path #(parameter WIDTH_SIZE = 8) (input clk, input reset, input Rx, in
 		end
     end
 
-endmodule: Rx_path;
+endmodule: Rx_path

@@ -136,4 +136,4 @@ module Tx_path #(parameter WIDTH_SIZE = 8)(input clk, input reset, input valid, 
     end
 
 
-endmodule : Tx_path;
+endmodule : Tx_path

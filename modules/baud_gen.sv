@@ -7,10 +7,10 @@ module baud_gen #(
     output reg baud_clk
 );
     
-    localparam BAUD_9600_DIV   = CLK_FREQ / 9600;
-    localparam BAUD_19200_DIV  = CLK_FREQ / 19200;
-    localparam BAUD_38400_DIV  = CLK_FREQ / 38400;
-    localparam BAUD_57600_DIV  = CLK_FREQ / 57600;
+  localparam BAUD_9600_DIV   = CLK_FREQ / (9600 * 2);
+  localparam BAUD_19200_DIV  = CLK_FREQ / (19200 * 2);
+  localparam BAUD_38400_DIV  = CLK_FREQ / (38400 * 2);
+  localparam BAUD_57600_DIV  = CLK_FREQ / (57600 * 2);
 
     localparam COUNTER_WIDTH = $clog2(BAUD_9600_DIV + 1);
     
