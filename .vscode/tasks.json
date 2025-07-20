@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run UART Testbench",
+			"type": "shell",
+			"command": "cd test && iverilog -o uart_tb UART_tb.sv && vvp uart_tb",
+			"group": "test",
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}

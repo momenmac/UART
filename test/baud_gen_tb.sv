@@ -1,79 +1,53 @@
-`timescale 1ns / 1ps
-`include "../modules/baud_gen.sv"
+`timescale 1us/1ns
 
-module baud_gen_tb();
-    reg clk;
-    reg reset;
-    reg [1:0] sel;
-    wire baud_clk;
-    
+module brg_tb;
+
+    localparam CLK_FREQ = 576_000;
     //576 KHz clock: 1/576000 = 1.736 us = 1736 ns
-    parameter CLK_PERIOD = 1736;
-    
-    baud_gen dut (
+    localparam CLK_PERIOD = 1736;
+
+    logic clk;
+    logic rst_n;
+    logic [1:0] select;
+    logic baud_tick;
+
+    baud_gen #(.CLK_FREQ(CLK_FREQ)) dut (
         .clk(clk),
-        .reset(reset),
-        .sel(sel),
-        .baud_clk(baud_clk)
+        .reset(rst_n),
+        .sel(select),
+        .baud_clk(baud_tick)
     );
-    
-    initial begin
+  
+  	initial begin
         clk = 0;
         forever #(CLK_PERIOD/2) clk = ~clk;
     end
-    
+
+	integer i;
+  
+      initial begin
+        $dumpfile("baud_gen_tb.vcd");
+        $dumpvars;
+    end
     initial begin
-        reset = 0;
-        sel = 2'b00;
+        rst_n = 0;
+        select = 2'b00;
+        #5;
+        rst_n = 1;
+
         
-        #(5*CLK_PERIOD);
-        reset = 1;
-        #(5*CLK_PERIOD);
-        
-        $display("Starting Baud Generator Test");
-        $display("Time\t\tSel\tBaud Rate\tBaud CLK");
-        $display("----\t\t---\t---------\t--------");
-        
-        sel = 2'b00;
-        #(2*CLK_PERIOD); 
-        $display("Testing sel = 00 (9600 baud, counter limit = 60)");
-        #(130*CLK_PERIOD); 
-        
-       
-        sel = 2'b01;
-        #(2*CLK_PERIOD); 
-        $display("Testing sel = 01 (19200 baud, counter limit = 30)");
-        #(65*CLK_PERIOD); 
-        
-        
-        sel = 2'b10;
-        #(2*CLK_PERIOD); 
-        $display("Testing sel = 10 (38400 baud, counter limit = 15)");
-        #(35*CLK_PERIOD); 
-        
-        sel = 2'b11;
-        #(2*CLK_PERIOD); 
-        $display("Testing sel = 11 (57600 baud, counter limit = 10)");
-        #(25*CLK_PERIOD); 
-        
-        $display("Testing reset functionality");
-        reset = 0;
-        #(10*CLK_PERIOD);
-        reset = 1;
-        #(10*CLK_PERIOD);
-        
-        $display("Baud Generator Test Completed");
+        for (i = 0; i < 4; i = i + 1) begin
+            select = i[1:0];
+            $display("Testing select = %0d", select);
+            repeat (1000) begin
+                @(posedge clk);
+                if (baud_tick)
+                    $display("Time %0t: baud_tick (select=%0d)", $time, select);
+            end
+        end
+
+        $display("Testbench finished.");
         $finish;
     end
-    
-    always @(posedge baud_clk or negedge baud_clk) begin
-        $display("%0t ns:\tsel=%b\tbaud_rate=%0d\tbaud_clk=%b", 
-                 $time, sel, dut.baud_rate, baud_clk);
-    end
-    
-    initial begin
-        $dumpfile("baud_gen_tb.vcd");
-        $dumpvars(0, baud_gen_tb);
-    end
-    
+
 endmodule

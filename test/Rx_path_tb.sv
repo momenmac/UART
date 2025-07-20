@@ -1,3 +1,6 @@
+`include "../modules/Tx_path.sv"
+`include "../modules/Rx_path.sv"
+
 module rx_tb;
   	parameter width = 16;
     reg clk;

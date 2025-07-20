@@ -1,8 +1,4 @@
-`include "Tx_path.sv"
-`include "Rx_path.sv"
-`include "baud_gen.sv"
-
-module UART #(parameter WIDTH_SIZE = 8)(
+module UART #(parameter WIDTH_SIZE = 8, parameter CLK_FREQ = 576_000 )(
     input clk,
     input reset,
     input Tx_valid,
@@ -15,10 +11,9 @@ module UART #(parameter WIDTH_SIZE = 8)(
     output reg ready,
     output reg [WIDTH_SIZE-1:0] Rx_data,
     output reg Rx_valid,
-    output reg Rx_err,
-    output reg Tx_err
+    output reg Rx_err
 );
-    reg baud_rate;
+    reg baud_clk;
 
 Rx_path #(
     .WIDTH_SIZE(WIDTH_SIZE)
@@ -45,7 +40,9 @@ Tx_path #(
     .ready(ready)
 );
 
-baud_gen baud_gen_inst (
+baud_gen #(
+    .CLK_FREQ(CLK_FREQ)
+) baud_gen_inst (
     .clk(clk),
     .reset(reset),
     .sel(sel),
