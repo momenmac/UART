@@ -130,6 +130,7 @@ The project includes testbenches for individual modules:
 - `baud_gen_tb.sv`: Tests baud rate generation
 - `Tx_path_tb.sv`: Tests transmitter functionality
 - `Rx_path_tb.sv`: Tests receiver functionality
+- `UART_tb.sv` : Tests uart functionality
 
 ## Development Notes
 
@@ -138,18 +139,3 @@ The project includes testbenches for individual modules:
 - Implements proper UART protocol with start, data, optional parity, and stop bits
 - Error handling for parity mismatches
 - Ready-valid handshaking for flow control
-
-## TODO
-
-- [ ] Update state machine diagrams in `asm/` folder
-- [ ] Implement top-level UART testbench
-- [ ] Add timing diagrams
-- [ ] Verify all supported configurations
-- [ ] Add synthesis reports
-
-## Files Status
-
-- ✅ Core modules implemented
-- ✅ Individual testbenches available  
-- ⚠️ ASM diagrams need updating
-- ❌ Top-level testbench pending
