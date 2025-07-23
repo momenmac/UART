@@ -6,6 +6,9 @@ A SystemVerilog implementation of a UART (Universal Asynchronous Receiver-Transm
 
 This UART design operates on a 576 KHz clock and supports multiple data widths with optional parity per byte configuration. The implementation includes both transmitter and receiver paths with proper handshaking protocols.
 
+## Simulator
+https://edaplayground.com/x/cNhY
+
 ## Features
 
 - **Data Width Support**: 8, 16, 24, 32 bits
